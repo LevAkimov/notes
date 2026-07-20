@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Заметка: как настроить соединение</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    color: #888;
+    background: #f0f0f0;
+    border-radius: 6px;
+    padding: 3px 10px;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  .btn-copy {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.15s;
+  }
+  .btn-copy:active { background: #333; }
+  .copied-msg {
+    text-align: center;
+    font-size: 14px;
+    color: #4caf50;
+    font-weight: 600;
+    height: 20px;
+    margin-bottom: 24px;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid #ebebeb;
+    margin: 24px 0;
+  }
+  .steps-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .steps {
+    list-style: none;
+    counter-reset: steps;
+  }
+  .steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #333;
+  }
+  .steps li::before {
+    content: counter(steps);
+    min-width: 24px;
+    height: 24px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .app-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .btn-app {
+    flex: 1;
+    display: block;
+    text-align: center;
+    padding: 12px 8px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: border-color 0.15s;
+  }
+  .btn-app:active { border-color: #999; }
+  .btn-app span {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="tag">Заметка</div>
+  <h1>Как настроить соединение</h1>
+  <p class="subtitle">Несколько человек спросили, как восстановить доступ к Telegram. Вот простая инструкция — занимает 2 минуты.</p>
+
+  <button class="btn-copy" onclick="copyLink()">Скопировать настройки</button>
+  <div class="copied-msg" id="msg"></div>
+
+  <hr class="divider">
+
+  <div class="steps-title">Инструкция</div>
+  <ol class="steps">
+    <li>
+      <div>
+        Скачай приложение (бесплатно)
+        <div class="app-links">
+          <a class="btn-app" href="https://apps.apple.com/ca/app/hiddify-proxy-vpn/id6596777532" target="_blank">
+            Скачать
+            <span>iPhone / iPad</span>
+          </a>
+          <a class="btn-app" href="https://play.google.com/store/apps/details?id=app.hiddify.com" target="_blank">
+            Скачать
+            <span>Android</span>
+          </a>
+        </div>
+      </div>
+    </li>
+    <li>Открой приложение, нажми <strong>«+»</strong> и выбери «Вставить из буфера обмена»</li>
+    <li>Нажми кнопку выше — настройки скопируются в буфер</li>
+    <li>Вернись в приложение и нажми подключиться — готово</li>
+  </ol>
+</div>
+
+<script>
+function copyLink() {
+  var link = 'vless://6cde0698-0549-438c-a035-a10e78a18f4e@akimov-notes24.ru:443?type=ws&security=tls&sni=akimov-notes24.ru&host=akimov-notes24.ru&path=%2Fupdate#Notes';
+  var msg = document.getElementById('msg');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(link).then(function() {
+      msg.textContent = 'Скопировано!';
+      setTimeout(function(){ msg.textContent = ''; }, 3000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = link;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      msg.textContent = 'Скопировано!';
+      setTimeout(function(){ msg.textContent = ''; }, 3000);
+    } catch(e) {
+      msg.textContent = 'Выделите и скопируйте вручную';
+    }
+    document.body.removeChild(ta);
+  }
+}
+</script>
+</body>
+</html>
